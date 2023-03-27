@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
-from std_msgs.msg import Int32MultiArray
+from std_msgs.msg import Float32MultiArray
 import RPi.GPIO as GPIO
 import time
 
@@ -31,15 +31,12 @@ def direction_callback(msg):
 
     duty0 = 6 + maprange((0, 256), (0, 12), msg.data[0])
     duty1 = 6 + maprange((256, 0), (0, 12), msg.data[1])
-    
-    if msg.data[0] == 128:
-        duty0 = 0;
-        
-    if msg.data[1] == 128:
-        duty1 = 0;
 
-    #duty0 += pot0
-    #duty1 -= pot1
+    if (msg.data[0] - 128) < 15:
+        duty0 = 0;
+
+    if (msg.data[1] - 128) < 15:
+        duty1 = 0;
 
     print(f"{msg.data[0]}: {duty0}")
     print(f"{msg.data[1]}: {duty1}")
@@ -55,28 +52,12 @@ def servocontrol():
     p0.start(0)
     p1.start(0)
 
-    #val1 = 255
-    #val2 = 255
-
-    #while True:
-        #val3 = [val1, val2]
-        #direction_callback(val3)
-
-        #val1 -= 10
-        #val2 -= 10
-
-        #if val1 <= 0:
-            #val1 = 255
-            #val2 = 255
-
-        #time.sleep(1)
-
     rospy.spin()
 
 if __name__ == "__main__":
     try:
         rospy.init_node('motor_actuator')
-        rospy.Subscriber('direction_topic', Int32MultiArray, direction_callback)
+        rospy.Subscriber('direction_topic', Float32MultiArray, direction_callback)
         servocontrol()
     except KeyboardInterrupt:
         p0.stop()
