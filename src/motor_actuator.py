@@ -29,8 +29,8 @@ def direction_callback(msg):
 
     #val = 2 + (msg[0] * 12.75)
 
-    duty0 = 6 + maprange((0, 255), (0, 12), msg.data[0])
-    duty1 = 6 + maprange((255, 0), (0, 12), msg.data[1])
+    duty0 = 6 + maprange((0, 256), (0, 12), msg.data[0])
+    duty1 = 6 + maprange((256, 0), (0, 12), msg.data[1])
 
     #duty0 += pot0
     #duty1 -= pot1
