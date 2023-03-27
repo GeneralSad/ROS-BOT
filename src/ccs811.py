@@ -18,7 +18,7 @@ Tested on Raspberry Pi Zero W
 import pigpio
 import time
 
-CCS811_ADDR = 0x5A # default I2C Address
+CCS811_ADDR = 0x5A  # default I2C Address
 
 CSS811_STATUS = 0x00
 CSS811_MEAS_MODE = 0x01
@@ -40,7 +40,7 @@ CSS811_SW_RESET = 0xFF
 class CCS811:
     def __init__(self):
         self.pi = pigpio.pi()
-        self.device = self.pi.i2c_open(1, 0x5A)
+        self.device = self.pi.i2c_open(1, CCS811_ADDR)
         self.tVOC = 0
         self.CO2 = 0
 
@@ -61,7 +61,7 @@ class CCS811:
         elif error & 1 << 0:
             message += 'MsgInvalid '
 
-        print(message)
+        print(f"Error: {error}")
 
     def check_for_error(self):
         value = self.pi.i2c_read_byte_data(self.device, CSS811_STATUS)
@@ -83,6 +83,8 @@ class CCS811:
     def configure_ccs811(self):
         hardware_id = self.pi.i2c_read_byte_data(self.device, CSS811_HW_ID)
 
+        print(hardware_id)
+
         if hardware_id != 0x81:
             raise ValueError('CCS811 not found. Please check wiring.')
 
@@ -94,6 +96,8 @@ class CCS811:
             raise ValueError('Error: App not valid.')
 
         self.pi.i2c_write_byte(self.device, CSS811_APP_START)
+
+        print(self.pi.i2c_read_byte_data(self.device, CSS811_STATUS))
 
         if self.check_for_error():
             self.print_error()
@@ -108,7 +112,7 @@ class CCS811:
     def setup(self):
         print('Starting CCS811 Read')
         self.configure_ccs811()
-        
+
         result = self.get_base_line()
 
         print("baseline for this sensor: 0x")
@@ -156,5 +160,5 @@ class CCS811:
         self.tVOC = (tvocMSB << 8) | tvocLSB
 
 
-c = CCS811()
-c.run()
+#c = CCS811()
+#c.run()
