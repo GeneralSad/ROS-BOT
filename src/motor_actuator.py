@@ -31,6 +31,12 @@ def direction_callback(msg):
 
     duty0 = 6 + maprange((0, 256), (0, 12), msg.data[0])
     duty1 = 6 + maprange((256, 0), (0, 12), msg.data[1])
+    
+    if msg.data[0] == 128:
+        duty0 = 0;
+        
+    if msg.data[1] == 128:
+        duty1 = 0;
 
     #duty0 += pot0
     #duty1 -= pot1
