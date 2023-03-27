@@ -24,7 +24,7 @@ rate = rospy.Rate(3)
 
 # CCs811 = GPIO.i2c_open(I2Cbus, CCS811address, 0)
 
-ccs = ccs811.CCS811
+ccs = ccs811.CCS811()
 
 ccs.setup()
 
@@ -38,6 +38,7 @@ while not rospy.is_shutdown():
     ccs.read_logorithm_results()
     array = Float32MultiArray()
     #get data and send
+    print(array)
     array.data = [ccs.CO2, ccs.tVOC]
     publisher.publish(array)
     rate.sleep()
