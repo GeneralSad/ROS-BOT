@@ -15,7 +15,7 @@ A new sensor requires at 48-burn in. Once burned in a sensor requires
 Tested on Raspberry Pi Zero W
 """
 
-import RPi.GPIO as pigpio
+import pigpio
 import time
 
 CCS811_ADDR = 0x5B  # default I2C Address
