@@ -18,7 +18,7 @@ Tested on Raspberry Pi Zero W
 import pigpio
 import time
 
-CCS811_ADDR = 0x5B  # default I2C Address
+CCS811_ADDR = 0x5A # default I2C Address
 
 CSS811_STATUS = 0x00
 CSS811_MEAS_MODE = 0x01
@@ -40,7 +40,7 @@ CSS811_SW_RESET = 0xFF
 class CCS811:
     def __init__(self):
         self.pi = pigpio.pi()
-        self.device = self.pi.i2c_open(1, 0x5B)
+        self.device = self.pi.i2c_open(1, 0x5A)
         self.tVOC = 0
         self.CO2 = 0
 
