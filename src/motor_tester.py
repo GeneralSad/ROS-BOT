@@ -1,19 +1,18 @@
 #!/usr/bin/env python
 
 import rospy
-from std_msgs.msg import Int32MultiArray
+from std_msgs.msg import Float32MultiArray
 import time
 
 def main():
-    pub = rospy.Publisher('direction_topic', Int32MultiArray, queue_size = 10)
-       #rospy.Subscriber('direction_topic', Int32MultiArray, direction_callback)
+    pub = rospy.Publisher('direction_topic', Float32MultiArray, queue_size = 10)
     rospy.init_node('motor_tester')
 
     val1 = 255
     val2 = 255
 
     while not rospy.is_shutdown():
-        val3 = Int32MultiArray()
+        val3 = Float32MultiArray()
         val3.data = [val1, val2]
 
         pub.publish(val3)
